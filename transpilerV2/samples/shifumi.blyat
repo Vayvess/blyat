@@ -1,0 +1,75 @@
+receptor Poll
+{
+    structure {
+        Int n;
+        Src src;
+        Label mailback;
+        Array votes;
+    }
+
+    mold (Int n, Src src, Label mailback) {
+        self.n = n;
+        self.src = src;
+        self.mailback = mailback;
+    }
+
+    upon cast(R r, String vote) {
+        votes.add(vote);
+        branch [self.votes.len == self.n] {
+            to self.target cast self.mailback(self.votes);
+        }
+    }
+}
+
+receptor Hypervisor
+{
+    structure {
+        Player a;
+        Player b;
+    }
+
+    mold () {
+        self.a = grow Player();
+        self.b = grow Player();
+    }
+
+    upon start() {
+        Poll poll = grow Poll(myself, 2, >turnFinished);
+
+        to self.a emit >selectMove(poll);
+        to self.b emit >selectMove(poll);
+
+        first_answer = await();
+        second_answer = await();
+    }
+
+    upon turnFinished(Array<Player, Str> votes) {
+        for (player, move in votes) {
+
+        }
+    }
+}
+
+receptor Player
+{
+    structure {
+
+    }
+
+    mold () {}
+
+    upon selectMove(Poll poll) {
+        Int x = randint(0, 2);
+
+        branch
+        [x == 0] {
+            to poll emit >cast(myself, "rock");
+        }
+        [x == 1] {
+            to poll emit >cast(myself, "paper");
+        }
+        [x == 2] {
+            to poll emit >cast(myself, "scissor");
+        }
+    }
+}

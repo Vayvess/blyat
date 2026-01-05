@@ -4,6 +4,7 @@ import argparse
 from tokens import TOKEN_SPECS
 from lexer import Lexer
 from parser import Parser
+from printer import Printer
 from transpiler import Transpiler
 
 def get_source():
@@ -20,11 +21,14 @@ def main():
     lexer = Lexer(TOKEN_SPECS)
     tokens = lexer.lex(source)
 
-    # for token in tokens:
-    #     print(token)
+    for token in tokens:
+        print(token)
     
-    parser = Parser()
-    ast = parser.parse(tokens)
+    # parser = Parser()
+    # ast = parser.parse(tokens)
+
+    # printer = Printer()
+    # printer.print(ast)
 
     # transpiler = Transpiler()
     # transpiler.transpile(ast)

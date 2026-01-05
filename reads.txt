@@ -1,0 +1,13 @@
+- https://en.wikipedia.org/wiki/Actor_model
+
+- https://en.wikipedia.org/wiki/Actor_model_implementation
+
+- https://en.wikipedia.org/wiki/Message_passing
+
+- http://dist-prog-book.com/chapter/3/message-passing.html
+
+- https://beej.us/guide/bgc/html/split/chapter-atomics.html
+
+- https://preshing.com/20120612/an-introduction-to-lock-free-programming/
+
+- https://en.wikipedia.org/wiki/Template_metaprogramming

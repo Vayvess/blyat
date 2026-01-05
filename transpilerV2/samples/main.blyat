@@ -1,0 +1,46 @@
+receptor Neuron
+{
+    structure {
+        Int potential;
+        Int threshold;
+        Array<Connection> connections;
+    }
+
+    mold init() {
+        self.potential = 0;
+        self.threshold = 10;
+        self.connections = new Array();
+    }
+
+    upon connect(Neuron target, Int weight) {
+        Connection conn = new Connection::init(target, weight);
+        self.connections.add([neuron, weight]);
+    }
+
+    upon spike(Int weight) {
+        self.potential += weight;
+
+        branch [potential >= threshold] {
+            for (Connection conn in self.connections) {
+                to conn.target cast >spike(conn.weight);
+            }
+            self.potential = 0;
+        }
+    }
+}
+
+receptor Network
+{
+    upon start() {
+        Neuron a = bake Neuron::init();
+        Neuron b = bake Neuron::init();
+        Neuron c = bake Neuron::init();
+
+        to a cast >connect(b, 3);
+        to a cast >connect(c, 5);
+        to b cast >connect(c, 4);
+
+        to a cast >spike(6);
+        to a cast >spike(5);
+    }
+}

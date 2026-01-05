@@ -10,9 +10,6 @@ class Transpiler:
     def visit_receptor(self):
         pass
 
-    def visit_structure(self):
-        pass
-
     def visit_molder(self):
         pass
     
@@ -22,8 +19,17 @@ class Transpiler:
     def visit_cast(self):
         pass
 
-    def visit_branch(self):
+    def visit_branch(self, node):
+        cond = node.condition.accept(self)
+    
+    def visit_unex(self):
         pass
+
+    def visit_binex(self, node):
+        left = node.left.accept(self)
+        right = node.right.accept(self)
+
+        return f"({left} {node.op} {right})"
     
     def transpile(self, root):
         

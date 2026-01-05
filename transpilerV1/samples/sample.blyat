@@ -21,3 +21,21 @@ receptor Creature
         }
     }
 }
+
+receptor Player {
+    structure {
+        Int totalXp;
+    }
+
+    mold init() {
+        self.totalXp = 0;
+    }
+
+    upon gainXP(Int xp) {
+        self.totalXp += xp;
+
+        if (self.totalXp > ) {
+
+        }
+    }
+}

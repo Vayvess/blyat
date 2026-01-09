@@ -1,0 +1,56 @@
+receptor Ping
+{
+    structure {
+        Int count;
+    }
+
+    mold (Int n) {
+        self.count = n;
+    }
+
+    upon fire(Pong target) {
+        to target emit >ping(myself);
+    }
+
+    upon pong(Int amount) {
+        self.count += amount;
+    }
+}
+
+receptor Pong
+{
+    structure {
+        Int count;
+    }
+
+    mold () {
+        self.count = 0;
+    }
+
+    upon ping(Ping src) {
+        self.count += 1;
+        to src emit >pong(self.count);
+    }
+}
+
+receptor Hypervisor
+{
+    structure {
+        Ping ping;
+        Pong pong;
+    }
+
+    mold () {
+        Int n = 8;
+        // self.ping = grow Ping(n);
+        // self.pong = grow Pong();
+    }
+
+    upon start() {
+        Int x = 0;
+        while [x < 8] {
+            to self.ping emit >fire(self.pong);
+            x += 1;
+        }
+    }
+}

@@ -1,0 +1,22 @@
+receptor Creature
+{
+    structure {
+        Int hp;
+        Int hpMax;
+        Int armor;
+    }
+
+    mold (Int maxHp, Int armor) {
+        self.hp = maxHp;
+        self.hpMax = maxHp;
+        self.armor = armor;
+    }
+
+    upon damageTaken(Int amount, Int multiplier) {
+        amount -= self.armor;
+        branch [amount < 0] {
+            amount = 0;
+        }
+        self.hp -= amount * multiplier;
+    }
+}
